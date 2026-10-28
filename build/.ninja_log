@@ -1,0 +1,5 @@
+# ninja log v7
+21	668	8149147443796217	CMakeFiles/BlackholeSimulator.dir/src/main.cpp.obj	ac33f91bf488ba93
+7	1483	8149147443654822	CMakeFiles/glad.dir/external/glad/src/gl.c.obj	c331d1eb4a843dbb
+1488	2239	8149147458452696	libglad.a	138daed668f00f73
+2240	2651	8149147465942191	BlackholeSimulator.exe	d20cd2b038ac225e

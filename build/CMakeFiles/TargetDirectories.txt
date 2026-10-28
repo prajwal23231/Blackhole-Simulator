@@ -1,0 +1,4 @@
+C:/Users/sriva/OneDrive/Desktop/Blackhole-Simulator/build/CMakeFiles/glad.dir
+C:/Users/sriva/OneDrive/Desktop/Blackhole-Simulator/build/CMakeFiles/BlackholeSimulator.dir
+C:/Users/sriva/OneDrive/Desktop/Blackhole-Simulator/build/CMakeFiles/edit_cache.dir
+C:/Users/sriva/OneDrive/Desktop/Blackhole-Simulator/build/CMakeFiles/rebuild_cache.dir

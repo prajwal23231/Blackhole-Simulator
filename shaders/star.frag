@@ -10,10 +10,11 @@ void main() {
         discard;
     }
 
-    float glow = 1.0 - (dist * 2.0);
-    glow = pow(glow, 1.5);
+    float core = smoothstep(0.08, 0.0, dist);
+    float glow = 0.06/(dist * dist + 0.04);
+    float brightness = core * 0.9 + glow * 0.5;
 
-    vec3 starColor = vec3(0.9, 0.95, 1.0);
+    vec3 starColor = mix(vec3(0.6, 0.8, 1.0), vec3(1.0, 1.0, 1.0), core);
     
-    FragColor = vec4(starColor * glow, glow);
+    FragColor = vec4(starColor * brightness, brightness);
 }

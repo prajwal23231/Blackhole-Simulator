@@ -1,6 +1,7 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "shader.h"
 
 using namespace std;
 
@@ -38,12 +39,36 @@ int main(){
     glfwSetFramebufferSizeCallback(window, frambuffer_size_callback);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    glEnable(GL_PROGRAM_POINT_SIZE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+    Shader starShader("shaders/star.vert","shaders/star.frag");
+
+    float starVertex[] = {0.0f, 0.0f, 0.0f};
+
+    unsigned int VAO, VBO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(starVertex), starVertex, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
     while(!glfwWindowShouldClose(window)){
         if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
             glfwSetWindowShouldClose(window, true);
         }
         
         glClear(GL_COLOR_BUFFER_BIT);
+
+        starShader.use();
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_POINTS, 0, 1);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

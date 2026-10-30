@@ -13,6 +13,7 @@ using namespace std;
 
 float yaw = -90.0f;
 float pitch = 0.0f;
+float fov = 45.0f;
 float lastX = 1280.0f / 2.0f;
 float lastY = 720.0f / 2.0f;
 bool firstMouse = true;
@@ -24,6 +25,11 @@ void frambuffer_size_callback(GLFWwindow* window, int width, int height){
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn){
+    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) != GLFW_PRESS){
+        firstMouse = true;
+        return ;
+    }
+
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
@@ -56,6 +62,12 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn){
     cameraFront = glm::normalize(front);
 }
 
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
+    fov -= (float)yoffset * 2.0f;
+    if(fov < 5.0f) fov = 5.0f;
+    if(fov > 80.0f) fov = 80.0f;
+}
+
 int main(){
     if(!glfwInit()){
         cerr << "Failed to initialize GLFW\n";
@@ -86,8 +98,8 @@ int main(){
     glfwSetFramebufferSizeCallback(window, frambuffer_size_callback);
 
     glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    
+    glfwSetScrollCallback(window, scroll_callback);
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     glEnable(GL_PROGRAM_POINT_SIZE);
@@ -108,7 +120,7 @@ int main(){
         float len = std::sqrt(x*x + y*y + z*z);
         if(len == 0.0f) len = 1.0f;
 
-        float radius = 50.0f;
+        float radius = 150.0f + ((float)rand() / RAND_MAX) * 150.0f;
         starVertices.push_back((x/len) * radius);
         starVertices.push_back((y/len) * radius);
         starVertices.push_back((z/len) * radius);
@@ -135,7 +147,7 @@ int main(){
 
         starShader.use();
 
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1270.0f/720.0f, 0.1f, 200.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(fov), 1280.0f/720.0f, 0.1f, 600.0f);
         float time = (float)glfwGetTime() * 0.1f;
         glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.0f, 1.0f, 0.0f));

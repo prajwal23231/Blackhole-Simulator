@@ -4,6 +4,10 @@
 
 using namespace std;
 
+void frambuffer_size_callback(GLFWwindow* window, int width, int height){
+    glViewport(0, 0, width, height);
+}
+
 int main(){
     if(!glfwInit()){
         cerr << "Failed to initialize GLFW\n";
@@ -31,12 +35,14 @@ int main(){
         return -1;
     }
 
+    glfwSetFramebufferSizeCallback(window, frambuffer_size_callback);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
     while(!glfwWindowShouldClose(window)){
         if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
             glfwSetWindowShouldClose(window, true);
         }
         
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(window);
